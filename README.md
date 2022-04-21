@@ -38,7 +38,7 @@ After that you can `mosquitto_sub -u mqtt_user -P mqtt_pass -t mower/can -h mqtt
 
 *Best Practices*:
 
-  * Take short logs and name log file with whatever happened. Ex: "mower-into-trapped-state.csv` or `offlimits-accessory-detect-magnetic-boundary.csv`
+  * Take short logs and name log file with whatever happened. Ex: `mower-into-trapped-state.csv` or `offlimits-accessory-detect-magnetic-boundary.csv`
   * You can submit log file in an issue here in github or create pull request including the log in the `canbus` folder
 
 ## CanBus info
