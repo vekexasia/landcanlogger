@@ -38,6 +38,10 @@ BO_ 1552 hello: 2 accessory
 
 BO_ 1553 hello_back: 1 mower
 
+BO_ 1048 mowerMsg99: 8 mower
+   SG_ error_code? : 63|8@0+ (1,0) [0|1] "" Vector__XXX
+   SG_ second_byte : 15|8@0+ (1,0) [0|1] "" Vector__XXX
+
 BA_DEF_ BO_ "GenMsgBackgroundColor" STRING ;
 BA_DEF_ BO_ "GenMsgForegroundColor" STRING ;
 BA_DEF_ BO_ "matchingcriteria" INT 0 0;
@@ -55,3 +59,5 @@ BA_DEF_DEF_ "matchingcriteria" 0;
 BA_DEF_DEF_ "filterlabeling" 0;
 BA_DEF_DEF_ "isj1939dbc" 0;
 CM_ BU_ mower "The mower";
+CM_ BO_ 1048 "mower_status?";
+CM_ SG_ 1048 second_byte "0x02_or_0x03_not_sure_what_is_the_diff";

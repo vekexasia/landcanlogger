@@ -25,6 +25,7 @@ def on_message(client, userdata, msg: mqtt.MQTTMessage):
 		#timestamp= int(round((time.time() - startTime)* 1000)),
 		timestamp= int(round((time.time() -startTime) * 1000)),
 		data=payload,
+		is_extended_id=False
 	)
 
 	flags = 0
