@@ -35,6 +35,14 @@ void loop() {
       }
 
       mqtt->writeToTopic(MQTT_PREFIX, buf);
+
+      // SavvyCan support
+      uint8_t flags = 0;
+      if (canMessage.extended) flags +=1;
+      if (canMessage.rtr) flags +=2;
+      // if (canMessage.is_fd) flags +=4;
+      // if (canMessage.error_state_indicator) flags +=8;
+      canMessage.timestamp
       Serial.println(buf);
   }
   ota->loop();
