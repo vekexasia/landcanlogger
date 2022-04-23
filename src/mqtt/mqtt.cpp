@@ -20,6 +20,29 @@ WiFiClient wifiClient;
 
   void MQTT::setup() {
     this->client.setServer(MQTT_HOST, MQTT_PORT);
+    this->client.setCallback([this](char * topic, unsigned char* payload, unsigned int length){
+      Serial.println("-------new message from broker-----");
+      Serial.print("channel:");
+      Serial.println(topic);
+      Serial.print("data:");  
+      Serial.write(payload, length);
+      Serial.println();
+      char cback_name[strlen(topic) + 1];
+      memcpy(cback_name, topic, strlen(topic) +1 );
+      if (callbackMap[cback_name] == NULL) {
+        char * lastSlash = strrchr(cback_name, '/');
+        lastSlash[1] = '#';
+        lastSlash[2] = '\0';
+      }
+      
+      Serial.println("not found");
+      Serial.println(cback_name);
+      if (callbackMap[cback_name] == NULL) {
+        Serial.println("yo");
+      } else {
+        callbackMap[cback_name](topic, payload, length);
+      }
+    });
   }
 
   void MQTT::loop() {
@@ -31,7 +54,11 @@ WiFiClient wifiClient;
     this->ensureConnected();
     this->client.publish(topic, payload);
   }
-
+  
+  void MQTT::writeToTopic(char * topic, uint8_t * payload,unsigned int plength ) {
+    this->ensureConnected();
+    this->client.publish(topic, payload, plength);
+  }
 // PRIVATE STUFF
 
   void MQTT::ensureConnected() {

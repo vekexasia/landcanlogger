@@ -13,6 +13,7 @@ namespace comfoair {
       void setup();
       void loop();
       void writeToTopic(char *topic, char* payload);
+      void writeToTopic(char * topic, uint8_t * payload,unsigned int plength );
 
     private:
       PubSubClient client;
