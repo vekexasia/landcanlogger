@@ -45,6 +45,18 @@ After doing so you should be able to see data coming from the canbus. Once you a
   * Take short logs and name log file with whatever happened. Ex: `mower-into-trapped-state.csv` or `offlimits-accessory-detect-magnetic-boundary.csv`
   * You can submit log file in an issue here in github or create pull request including the log in the `canbus` folder
 
+
+## Utils
+
+There is a utils/ script called sendcan.py you need python and all the needed deps installed via `pip`
+
+this utility let you send a message via cli to the canbus through the ESP32. 
+
+For example if you want to send 0x610 02 0f (which is the message sent by the off limits accessory) you just need to do so
+
+```
+python sendcan.py -H MQTT_HOST -u MQTT_USER -p MQTT_PASS -P MQTT_PORT -t can2 -i 0x610 -d "02 0f"
+```
 ## CanBus info
 
   * 500kbit/s standard format.
