@@ -32,29 +32,19 @@ Hardware:
 
 ## Logging
 
-### Method 1 (via MQTT and CSV)
-You need "mosquitto-clients" installed in your linux machine. 
+### Method 1 (via MQTT and SavvyCan)
 
-After that you can `mosquitto_sub -u mqtt_user -P mqtt_pass -t mower/can -h mqtt_host > log.csv`
+SavvyCan is an utility mostly used to debug and analyze can data. You can push directly to mosquitto server using savvycan data format to live inspect whats coming from the esp32.
+
+To do so you need to configure SavvyCan setting the MQTT broker info within the *preferences* and adding a MQTT bus in new connection panel with topic "can2"
+
+After doing so you should be able to see data coming from the canbus. Once you are finished capturing you can hit the "Suspend Capturing" button and save the file as csv. 
 
 *Best Practices*:
 
   * Take short logs and name log file with whatever happened. Ex: `mower-into-trapped-state.csv` or `offlimits-accessory-detect-magnetic-boundary.csv`
   * You can submit log file in an issue here in github or create pull request including the log in the `canbus` folder
 
-### Method 2 (Via MQTT directly into SavvyCAN)
-
-SavvyCan is an utility mostly used to debug and analyze can data. You can push directly to mosquitto server using savvycan data format to live inspect whats coming from the esp32.
-
-To do so you need to launch 
-
-```
-python utils/pythoncan.py -H MQTT_HOST -u MQTT_USER -p MQTT_PASS -P MQTT_PORT -t can
-```
-
-After you launch the script you need to configure SavvyCan setting the MQTT broker info within the *preferences* and adding a MQTT bus in new connection panel with topic "can"
-
-from 
 ## CanBus info
 
   * 500kbit/s standard format.
@@ -63,8 +53,10 @@ from
 
     * 0x610: (2 bytes) accessory sends this message on the bus every 0.5s
         * `02 0f` is being sent by offlimits accessory
-    * 0x611: (1 byte - always 0?) mower seems to respond to the 0x610 message above.
-    * 0x418: (8 bytes): mower sends such message when in mowing state. This message probably contains all the relevant data about the mower info such as battery, motors state, heading etc.
+    * 0x611: (1 byte ) mower response of the message above
+        * `0x01` mowing
+        * `0x00` idle/home/not mowing in general
+    * 0x418: (8 bytes): offlimits accessory sends such message when in mowing state . This can frame contains the information for the robot to take action. Last byte is `0x00` when in no magnetic tape is away. When magnetic tape is detected and mower is moving relatively to the tape than last byte changes. 
 
   * DBC file:
 
