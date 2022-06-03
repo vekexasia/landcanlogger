@@ -22,8 +22,8 @@ Hardware:
 
     * GND -> GND
     * 3.3 -> 3.3
-    * TX -> 17
-    * RX -> 16
+    * TX -> 16
+    * RX -> 17
   
   * ESP32 -> Mower
 
